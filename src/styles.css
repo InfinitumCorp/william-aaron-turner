@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0c0c0b;
+  --color-bone: #f3efe7;
+  --color-muted: #8f8a82;
+  --color-line: #2a2723;
+  --color-copper: #d4893a;
+  --font-display: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", serif;
+  --font-sans: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+  --tracking-kicker: 0.22em;
+  --aspect-portrait: 4 / 5;
+  --text-hero: clamp(4.25rem, 13.2vw, 10.75rem);
+  --text-hero--line-height: 0.9;
+  --text-hero--letter-spacing: -0.045em;
+  --text-display: clamp(2.6rem, 6vw, 5.5rem);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.03em;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: var(--color-copper);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-copper);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* drifting field — geometry, not atmosphere blobs */
+.field {
+  height: 70vh;
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-bone) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-bone) 7%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black 10%, transparent 78%);
+  animation: drift 28s linear infinite;
+}
+
+@keyframes drift {
+  to {
+    background-position: 72px 72px;
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.aaron {
+  padding-left: 0.12em;
+}
+.d1 { animation-delay: 0.02s; }
+.d2 { animation-delay: 0.08s; }
+.d3 { animation-delay: 0.14s; }
+.d4 { animation-delay: 0.2s; }
+.d5 { animation-delay: 0.26s; }
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(40%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.draw {
+  transform-origin: left center;
+  animation: draw 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+@keyframes draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.spin-slow {
+  animation: spin 22s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.float-y {
+  animation: float-y 7s ease-in-out infinite;
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.pulse-line {
+  animation: pulse-line 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-line {
+  0% { transform: scaleY(0.35); opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(0.35); opacity: 0.4; }
+}
+
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+html.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.row-link {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    padding-left 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.row-link:hover {
+  background: color-mix(in oklab, var(--color-bone) 4%, transparent);
+  padding-left: 1.25rem;
+}
+
+.row-link .arrow {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.row-link:hover .arrow {
+  transform: translate(4px, -4px);
+}
+
+.press {
+  transition: scale 150ms ease-out;
+}
+
+.press:active {
+  scale: 0.96;
+}
+
+.spotlight {
+  background: radial-gradient(
+    520px circle at var(--mx, 50%) var(--my, 20%),
+    color-mix(in oklab, var(--color-copper) 16%, transparent),
+    transparent 55%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .field,
+  .rise,
+  .fade-up,
+  .draw,
+  .marquee-track,
+  .spin-slow,
+  .float-y,
+  .pulse-line {
+    animation: none;
+  }
+
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
